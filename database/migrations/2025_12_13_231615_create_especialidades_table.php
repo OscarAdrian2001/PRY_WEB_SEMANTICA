@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('especialidads', function (Blueprint $table) {
-            $table->id();
+        Schema::create('especialidades', function (Blueprint $table) {
+            $table->id(); // BIGINT UNSIGNED
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->timestamps();
