@@ -4,62 +4,60 @@ namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
 use Illuminate\Http\Request;
+use App\Http\Resources\EspecialidadResource;
 
 class EspecialidadController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar especialidades
      */
     public function index()
     {
-        //
+        return EspecialidadResource::collection(Especialidad::all());
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Guardar una especialidad
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        $especialidad = Especialidad::create($request->all());
+
+        return new EspecialidadResource($especialidad);
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar una especialidad
      */
     public function show(Especialidad $especialidad)
     {
-        //
+        return new EspecialidadResource($especialidad);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Especialidad $especialidad)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Actualizar especialidad
      */
     public function update(Request $request, Especialidad $especialidad)
     {
-        //
+        $especialidad->update($request->all());
+
+        return new EspecialidadResource($especialidad);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar especialidad
      */
     public function destroy(Especialidad $especialidad)
     {
-        //
+        $especialidad->delete();
+
+        return response()->json([
+            'message' => 'Especialidad eliminada correctamente'
+        ]);
     }
 }

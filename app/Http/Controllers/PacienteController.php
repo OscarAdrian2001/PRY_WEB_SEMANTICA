@@ -4,62 +4,65 @@ namespace App\Http\Controllers;
 
 use App\Models\Paciente;
 use Illuminate\Http\Request;
+use App\Http\Resources\PacienteResource;
 
 class PacienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar todos los pacientes
      */
     public function index()
     {
-        //
+        return PacienteResource::collection(Paciente::all());
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Guardar un nuevo paciente
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'email' => 'required|email',
+            'telefono' => 'nullable|string',
+            'fecha_nacimiento' => 'nullable|date',
+            'sexo' => 'nullable|string',
+            'historial_medico' => 'nullable|string',
+        ]);
+
+        $paciente = Paciente::create($request->all());
+
+        return new PacienteResource($paciente);
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar un paciente específico
      */
     public function show(Paciente $paciente)
     {
-        //
+        return new PacienteResource($paciente);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Paciente $paciente)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Actualizar un paciente
      */
     public function update(Request $request, Paciente $paciente)
     {
-        //
+        $paciente->update($request->all());
+
+        return new PacienteResource($paciente);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un paciente
      */
     public function destroy(Paciente $paciente)
     {
-        //
+        $paciente->delete();
+
+        return response()->json([
+            'message' => 'Paciente eliminado correctamente'
+        ]);
     }
 }
+
