@@ -14,16 +14,21 @@ class MedicoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-       return [
-            "@context" => "https://schema.org",
-            "@type" => "Physician",
+        return [
+            '@context' => 'https://schema.org',
+            '@type' => 'Physician',
+            '@id' => url('/api/medicos/' . $this->id),
 
-            "id" => $this->id,
-            "name" => $this->nombre,
-            "email" => $this->email,
-            "telephone" => $this->telefono,
+            'name' => $this->nombre,
+            'email' => $this->email,
+            'telephone' => $this->telefono,
 
-            "medicalSpecialty" => new EspecialidadResource($this->especialidad),
+            'medicalSpecialty' => [
+                '@type' => 'MedicalSpecialty',
+                'name' => $this->especialidad->nombre,
+                'description' => $this->especialidad->descripcion,
+            ]
         ];
+        
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\CitaController;
 
-
 Route::apiResource('pacientes', PacienteController::class);
 Route::apiResource('medicos', MedicoController::class);
 Route::apiResource('especialidades', EspecialidadController::class);

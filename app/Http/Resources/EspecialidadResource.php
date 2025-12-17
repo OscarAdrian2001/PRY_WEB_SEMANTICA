@@ -18,7 +18,7 @@ class EspecialidadResource extends JsonResource
             "@context" => "https://schema.org",
             "@type" => "MedicalSpecialty",
 
-            "id" => $this->id,
+            '@id' => url('/api/especialidades/' . $this->id),
             "name" => $this->nombre,
             "description" => $this->descripcion
         ];

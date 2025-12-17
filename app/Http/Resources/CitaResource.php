@@ -15,16 +15,23 @@ class CitaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "@context" => "https://schema.org",
-            "@type" => "MedicalAppointment",
+            '@context' => 'https://schema.org',
+            '@type' => 'MedicalAppointment',
+            '@id' => url('/api/citas/' . $this->id),
 
-            "id" => $this->id,
-            "startDate" => $this->fecha_hora,
-            "status" => $this->estado,
-            "reason" => $this->motivo,
+            'startDate' => $this->fecha_hora,
+            'status' => $this->estado,
 
-            "patient" => new PacienteResource($this->paciente),
-            "physician" => new MedicoResource($this->medico),
+            'patient' => [
+                '@type' => 'Patient',
+                'name' => $this->paciente->nombre
+            ],
+
+            'physician' => [
+                '@type' => 'Physician',
+                'name' => $this->medico->nombre
+            ]
         ];
+
     }
 }
